@@ -1,0 +1,120 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\User;
+use App\Entity\Partner;
+use App\Repository\PartnerRepository;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+
+class StructureType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('roles', ChoiceType::class, [
+                'label' => 'Type de client',
+                'required' => true,
+                'multiple' => false,
+                'disabled' => true,
+                'attr' => [
+                    'class' => 'form-select',
+                    'placeholder' => 'Type de client'
+                ],
+                'choices'  => [
+                    'Structure' => 'ROLE_STRUCTURE',
+                ],
+            ])
+            ->add('name', TextType::class, [
+                'label' => 'Nom de l\'utilisateur',
+                'required' => true,
+                'constraints' => new Length([
+                    'min' => 2,
+                    'max' => 60
+                ]),
+                'attr' => [
+                    'placeholder' => 'Merci de saisir le nom de l\'utilisateur'
+                ]
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'Email de l\'utilisateur',
+                'required' => true,
+                'constraints' => new Length([
+                    'min' => 2,
+                    'max' => 60
+                ]),
+                'attr' => [
+                    'placeholder' => 'Merci de saisir une adresse email'
+                ]
+            ])
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Le mot de passe et la confirmation doivent être identiques',
+                'label' => false,
+                'required' => true,
+                'first_options' => [
+                    'label' => 'Mot de passe',
+                    'attr' => [
+                        'placeholder' => 'Merci de saisir votre mot de passe'
+                    ]
+                ],
+                'second_options' => [
+                    'label' => 'Confirmez votre mot de passe',
+                    'attr' => [
+                        'placeholder' => 'Merci de saisir un mot de passe'
+                    ]
+                ],
+            ])
+            ->add('postalAdress', TextType::class, [
+                'mapped' => false,
+                'label' => 'Adresse postale de la structure',
+                'required' => true,
+                'constraints' => new Length([
+                    'min' => 2,
+                    'max' => 60
+                ]),
+                'attr' => [
+                    'placeholder' => 'Saisissez l\'adresse postale de la structure'
+                ]
+            ])
+            ->add('isActive', CheckboxType::class, [
+                'label' => false,
+                'label_attr' => ['class' => 'switch-custom is-active-btn'],
+                'required' => false,
+                'attr' => array('checked' => 'checked')
+            ]);
+
+        // A insérer dans le StructureType, qui est relié au StructureController
+
+        $builder->add('id', EntityType::class, [
+            'class' => Partner::class,
+            'query_builder' => function (PartnerRepository $pr) {
+                return $pr->createQueryBuilder('u')
+                    ->orderBy('u.name', 'ASC');
+            },
+            'label' => 'Nom du partenaire rattaché à la structure :',
+            'mapped' => false,
+            'attr' => [
+                'class' => 'form-select',
+            ],
+        ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => User::class,
+            'csrf_protection' => true,
+        ]);
+    }
+}
