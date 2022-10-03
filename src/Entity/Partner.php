@@ -25,9 +25,13 @@ class Partner
     #[ORM\OneToMany(mappedBy: 'partner', targetEntity: Structure::class, orphanRemoval: true)]
     private Collection $structures;
 
+    #[ORM\ManyToMany(targetEntity: Permission::class, mappedBy: 'partners')]
+    private Collection $permissions;
+
     public function __construct()
     {
         $this->structures = new ArrayCollection();
+        $this->permissions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -84,6 +88,33 @@ class Partner
             if ($structure->getPartner() === $this) {
                 $structure->setPartner(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Permission>
+     */
+    public function getPermissions(): Collection
+    {
+        return $this->permissions;
+    }
+
+    public function addPermission(Permission $permission): self
+    {
+        if (!$this->permissions->contains($permission)) {
+            $this->permissions->add($permission);
+            $permission->addPartner($this);
+        }
+
+        return $this;
+    }
+
+    public function removePermission(Permission $permission): self
+    {
+        if ($this->permissions->removeElement($permission)) {
+            $permission->removePartner($this);
         }
 
         return $this;
