@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{parent() }} | Utilisateurs{% endblock %}
+
+{% block header %}{% endblock %}
+{% block topbar %}{% endblock %}
+{% block searchBar %}{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid index js-filter">
+
+    {# Flash message "Correctement ajouté" #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show my-4" role="alert">
+            <button type="button" data-bs-dismiss="alert" class="btn-close" aria-label="Close"></button>
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger alert-dismissible fade show my-4" role="alert">
+            <button type="button" data-bs-dismiss="alert" class="btn-close" aria-label="Close"></button>
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {# SEARCH BAR #}
+    <div class="row">
+        <div class="col-md-3 search">
+            <i class="fa fa-search"></i>
+            {% include 'ajaxFilter/_filter.html.twig' %}
+        </div>
+    </div>
+
+    <div class="col d-flex align-items-center">
+        <h1 class="my-4 me-2">Tous les utilisateurs  </h1>
+        <span class="my-4">({{ users|length }})</span> 
+        {# Tous les utilisateurs - 1 (admin) #}
+    </div>
+
+    
+    <div class="responsive-table-line">
+
+        <table class="table table-striped ">
+            <thead>
+                <tr class="">
+                    <th scope="col">ID</th>
+                    <th scope="col">Rôle</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Actif</th>
+                </tr>
+            </thead>
+
+            {# Tous mes utilisateurs #}
+            <tbody class="js-filter-content">
+                {% include 'user/_users.html.twig'%}
+            </tbody>
+        
+        </table>
+
+    </div>
+
+
+</div>
+
+{% endblock %}

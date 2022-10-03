@@ -1,0 +1,38 @@
+{% for user in users %}
+                    <tr class="select-none">
+                        <td data-title="ID :">{{ user.id }}</td>
+                        {% for role in user.roles %}
+                            {% if role == 'ROLE_ADMIN' %}
+                                <td>
+                                    <div class="form-check form-check-admin">Admin</div>
+                                </td>
+                                {% elseif role == 'ROLE_PARTENAIRE' %}
+                                <td>
+                                    <div class="form-check partner">Partenaire</div>
+                                </td>
+                                {% elseif role == 'ROLE_STRUCTURE' %}
+                                <td>
+                                    <div class="form-check form-check-structure">Structure</div>
+                                </td>
+                            {% endif %}
+                        {% endfor %}
+                        <td data-title="Nom :">{{ user.name }}</td>
+                        <td data-title="Email :">{{ user.email }}</td>
+                        <td data-title="Actif :">
+                            {% if user.isActive == true %}
+                                    {# <div class="form-check form-check-active">Actif</div> #}
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" id="form_user_isActive" name="form[user][isActive]" class="custom-control-input" value="1" checked="checked" disabled>
+                                        <label class="switch-custom is-active-btn custom-control-label" for="form_user_isActive"></label>
+                                    </div>
+                                {% else %}
+                                    {# <div class="form-check form-check-inactive">Inactif</div> #}
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" id="form_user_isActive" name="form[user][isActive]" class="custom-control-input" value="0" disabled>
+                                        <label class="switch-custom is-active-btn custom-control-label" for="form_user_isActive"></label>
+                                    </div>
+                                {% endif %}
+                        </td>
+                    </tr>
+                    
+                {% endfor %}
