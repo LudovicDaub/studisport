@@ -13,19 +13,22 @@ class Partner
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?int $id;
 
     #[ORM\OneToOne(inversedBy: 'partner', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'partner', targetEntity: Structure::class, orphanRemoval: true)]
-    private Collection $structures;
+    #[ORM\Column(length: 255)]
+    private ?string $name;
 
-    #[ORM\ManyToMany(targetEntity: Permission::class, mappedBy: 'partners')]
+
+    #[ORM\OneToMany(targetEntity: 'App\Entity\Structure', mappedBy: 'partner', orphanRemoval: true)]
+    // private Collection $structures;
+    private $structures;
+
+
+    #[ORM\ManyToMany(targetEntity: Permission::class, inversedBy: 'partners', cascade: ['persist'])]
     private Collection $permissions;
 
     public function __construct()
@@ -37,6 +40,18 @@ class Partner
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -51,22 +66,8 @@ class Partner
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
 
-    public function setUser(User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Structure>
-     */
-    public function getStructures(): Collection
+    public function getStructures()
     {
         return $this->structures;
     }
@@ -81,22 +82,14 @@ class Partner
         return $this;
     }
 
-    public function removeStructure(Structure $structure): self
-    {
-        if ($this->structures->removeElement($structure)) {
-            // set the owning side to null (unless already changed)
-            if ($structure->getPartner() === $this) {
-                $structure->setPartner(null);
-            }
-        }
 
-        return $this;
+    public function __toString()
+    {
+        return $this->name;
     }
 
-    /**
-     * @return Collection<int, Permission>
-     */
-    public function getPermissions(): Collection
+
+    public function getPermissions()
     {
         return $this->permissions;
     }
@@ -105,7 +98,6 @@ class Partner
     {
         if (!$this->permissions->contains($permission)) {
             $this->permissions->add($permission);
-            $permission->addPartner($this);
         }
 
         return $this;
@@ -113,15 +105,8 @@ class Partner
 
     public function removePermission(Permission $permission): self
     {
-        if ($this->permissions->removeElement($permission)) {
-            $permission->removePartner($this);
-        }
+        $this->permissions->removeElement($permission);
 
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->name;
     }
 }

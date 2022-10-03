@@ -31,6 +31,7 @@ class AppFixtures extends Fixture
             ->setName('Admin')
             ->setEmail('admin@admin.fr')
             ->setRoles(['ROLE_ADMIN'])
+            ->setIsActive(true)
             ->setPassword($this->passwordHasher->hashPassword($adminUser, ('admin123.')));
 
         //?  USER 1 (PARTENAIRE)
@@ -64,6 +65,7 @@ class AppFixtures extends Fixture
             ->setName('Directeur Planète Fitness')
             ->setEmail('plafit@partenaire.fr')
             ->setRoles(['ROLE_PARTENAIRE'])
+            ->setIsActive(true)
             ->setPassword($this->passwordHasher->hashPassword($User1, ('Pfitness123$')));
         // PARTNER 1 (rattaché à User 1)
         $Partner1
@@ -77,6 +79,7 @@ class AppFixtures extends Fixture
             ->setName('Directeur Orange Bleue')
             ->setEmail('oranble@partenaire.fr')
             ->setRoles(['ROLE_PARTENAIRE'])
+            ->setIsActive(true)
             ->setPassword($this->passwordHasher->hashPassword($User1, ('Obleu123$')));
         // PARTNER 5 (rattaché à User 5)
         $Partner5
@@ -103,6 +106,7 @@ class AppFixtures extends Fixture
             ->setName('Orange bleue - Bayeux')
             ->setEmail('orangebleuebayeux@structure.fr')
             ->setRoles(['ROLE_STRUCTURE'])
+            ->setIsActive(true)
             ->setPassword($this->passwordHasher->hashPassword($User2, ('Orange123$')));
         // STRUCTURE 2 (rattaché à User 2)
         $Structure2
@@ -116,6 +120,7 @@ class AppFixtures extends Fixture
             ->setName('Orange Bleue - Carpiquet')
             ->setEmail('orangebleuecarpiquet@structure.fr')
             ->setRoles(['ROLE_STRUCTURE'])
+            ->setIsActive(false)
             ->setPassword($this->passwordHasher->hashPassword($User1, ('genou123$')));
         // STRUCTURE 4 INACTIVE (rattaché à User 3)
         $Structure4
