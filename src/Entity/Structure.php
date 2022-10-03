@@ -16,7 +16,7 @@ class Structure
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $postaladress = null;
+    private ?string $postalAdress = null;
 
     #[ORM\OneToOne(inversedBy: 'structure', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -39,14 +39,14 @@ class Structure
         return $this->id;
     }
 
-    public function getPostaladress(): ?string
+    public function getPostalAdress(): ?string
     {
-        return $this->postaladress;
+        return $this->postalAdress;
     }
 
-    public function setPostaladress(string $postaladress): self
+    public function setPostalAdress(string $postalAdress): self
     {
-        $this->postaladress = $postaladress;
+        $this->postalAdress = $postalAdress;
 
         return $this;
     }
