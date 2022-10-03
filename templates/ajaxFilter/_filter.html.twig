@@ -1,0 +1,14 @@
+{{ form_start(form, {attr: {class: 'js-filter-form'}}) }}
+    {{ form_errors(form) }}
+
+        <div class="form-group d-flex align-items-center mb-2">
+            {{ form_row(form.string, { 'value': '' }) }}
+            {# {{ form_row(form.submit) }} #}
+        </div>
+        <div class="form-group d-flex justify-content-around">
+            {{ form_row(form.active) }}
+            {{ form_row(form.inactive) }}
+        </div>
+        
+ 
+{{ form_end(form) }}
