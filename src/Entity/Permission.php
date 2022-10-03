@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PermissionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PermissionRepository::class)]
@@ -27,6 +29,18 @@ class Permission
 
     #[ORM\Column]
     private ?bool $isVenteMerch = null;
+
+    #[ORM\ManyToMany(targetEntity: Partner::class, inversedBy: 'permissions')]
+    private Collection $partners;
+
+    #[ORM\ManyToMany(targetEntity: Structure::class, inversedBy: 'permissions')]
+    private Collection $structures;
+
+    public function __construct()
+    {
+        $this->partners = new ArrayCollection();
+        $this->structures = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -89,6 +103,54 @@ class Permission
     public function setIsVenteMerch(bool $isVenteMerch): self
     {
         $this->isVenteMerch = $isVenteMerch;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Partner>
+     */
+    public function getPartners(): Collection
+    {
+        return $this->partners;
+    }
+
+    public function addPartner(Partner $partner): self
+    {
+        if (!$this->partners->contains($partner)) {
+            $this->partners->add($partner);
+        }
+
+        return $this;
+    }
+
+    public function removePartner(Partner $partner): self
+    {
+        $this->partners->removeElement($partner);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Structure>
+     */
+    public function getStructures(): Collection
+    {
+        return $this->structures;
+    }
+
+    public function addStructure(Structure $structure): self
+    {
+        if (!$this->structures->contains($structure)) {
+            $this->structures->add($structure);
+        }
+
+        return $this;
+    }
+
+    public function removeStructure(Structure $structure): self
+    {
+        $this->structures->removeElement($structure);
 
         return $this;
     }

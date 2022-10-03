@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StructureRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StructureRepository::class)]
@@ -23,6 +25,14 @@ class Structure
     #[ORM\ManyToOne(inversedBy: 'structures')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Partner $partner = null;
+
+    #[ORM\ManyToMany(targetEntity: Permission::class, mappedBy: 'structures')]
+    private Collection $permissions;
+
+    public function __construct()
+    {
+        $this->permissions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -61,6 +71,33 @@ class Structure
     public function setPartner(?Partner $partner): self
     {
         $this->partner = $partner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Permission>
+     */
+    public function getPermissions(): Collection
+    {
+        return $this->permissions;
+    }
+
+    public function addPermission(Permission $permission): self
+    {
+        if (!$this->permissions->contains($permission)) {
+            $this->permissions->add($permission);
+            $permission->addStructure($this);
+        }
+
+        return $this;
+    }
+
+    public function removePermission(Permission $permission): self
+    {
+        if ($this->permissions->removeElement($permission)) {
+            $permission->removeStructure($this);
+        }
 
         return $this;
     }
