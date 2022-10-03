@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\StructureRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\StructureRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: StructureRepository::class)]
 class Structure
@@ -13,20 +13,20 @@ class Structure
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $postaladress = null;
+    private ?int $id;
 
     #[ORM\OneToOne(inversedBy: 'structure', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private User $user;
 
-    #[ORM\ManyToOne(inversedBy: 'structures')]
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Partner', inversedBy: 'structures')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Partner $partner = null;
+    private Partner $partner;
 
-    #[ORM\ManyToMany(targetEntity: Permission::class, mappedBy: 'structures')]
+    #[ORM\Column(length: 255)]
+    private ?string $postalAdress;
+
+    #[ORM\ManyToMany(targetEntity: Permission::class, inversedBy: 'structures', cascade: ['persist'])]
     private Collection $permissions;
 
     public function __construct()
@@ -34,24 +34,13 @@ class Structure
         $this->permissions = new ArrayCollection();
     }
 
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPostaladress(): ?string
-    {
-        return $this->postaladress;
-    }
-
-    public function setPostaladress(string $postaladress): self
-    {
-        $this->postaladress = $postaladress;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
@@ -63,22 +52,35 @@ class Structure
         return $this;
     }
 
-    public function getPartner(): ?Partner
+    public function getPartner(): Partner
     {
         return $this->partner;
     }
 
-    public function setPartner(?Partner $partner): self
+    public function setPartner(Partner $partner): self
     {
         $this->partner = $partner;
 
         return $this;
     }
 
+    public function getPostalAdress(): ?string
+    {
+        return $this->postalAdress;
+    }
+
+    public function setPostalAdress(string $postalAdress): self
+    {
+        $this->postalAdress = $postalAdress;
+
+        return $this;
+    }
+
+
     /**
      * @return Collection<int, Permission>
      */
-    public function getPermissions(): Collection
+    public function getPermission(): Collection
     {
         return $this->permissions;
     }
@@ -87,7 +89,6 @@ class Structure
     {
         if (!$this->permissions->contains($permission)) {
             $this->permissions->add($permission);
-            $permission->addStructure($this);
         }
 
         return $this;
@@ -95,9 +96,7 @@ class Structure
 
     public function removePermission(Permission $permission): self
     {
-        if ($this->permissions->removeElement($permission)) {
-            $permission->removeStructure($this);
-        }
+        $this->permissions->removeElement($permission);
 
         return $this;
     }
