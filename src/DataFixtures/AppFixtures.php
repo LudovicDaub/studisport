@@ -112,7 +112,7 @@ class AppFixtures extends Fixture
         $Structure2
             ->setUser($User2)
             ->setPartner($Partner1)
-            ->setPostalAdress('17 rue du sport, Bayeux (Structure 1)')
+            ->setPostalAdress('17 rue du sport, Bayeux')
             ->addPermission($StructurePermissions);
 
         // USER 4 INACTIF
