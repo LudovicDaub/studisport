@@ -11,9 +11,8 @@ use App\Form\SearchType;
 use App\Form\PartnerType;
 use App\Entity\Permission;
 use App\Form\UserShowType;
-use App\Entity\Permissions;
+use App\Form\PermissionType;
 use App\Form\PartnerFormType;
-use App\Form\PermissionsType;
 use App\Form\PartnerFormShowType;
 use App\Repository\UserRepository;
 use App\Repository\PartnerRepository;
@@ -61,7 +60,6 @@ class PartnerController extends AbstractController
         }
 
         return $this->render('partner/index.html.twig', [
-            // 'users' => $users,
             'partners' => $partners,
             'permissions' => $permissionRepository->findAll(),
             'form' => $form->createView()
@@ -108,11 +106,11 @@ class PartnerController extends AbstractController
                 $user->setRoles(['ROLE_PARTENAIRE']);
 
                 // Je récupère les données non mappées du formulaire et les injecte dans mon objet  Permissions
-                $permissions->setIsNewsletter($form->get('isNesetIsNewsletter')->getData());
-                $permissions->setIsVenteBoisson($form->get('isVentesetIsVenteBoisson')->getData());
+                $permissions->setIsNewsletter($form->get('isIsNewsletter')->getData());
+                $permissions->setIsVenteBoisson($form->get('isIsVenteBoisson')->getData());
                 $permissions->setIsOffreSac($form->get('isOffreSac')->getData());
-                $permissions->setIsBadgePerso($form->get('isBasetIsBadgePerso')->getData());
-                $permissions->setIsVenteMerch($form->get('isVesetIsVenteMerch')->getData());
+                $permissions->setIsBadgePerso($form->get('isIsBadgePerso')->getData());
+                $permissions->setIsVenteMerch($form->get('isIsVenteMerch')->getData());
 
                 // Je déclare que mon partenaire a de nouvelles permissions et que cet objet    permissions a un nouveau partenaire
                 $partner->addPermission($permissions);
@@ -142,19 +140,19 @@ class PartnerController extends AbstractController
 
                 // Envoi des permissions
                 if ($permissions->isIsNewsletter() == true) {
-                    $content .=  "<h5>NesetIsNewsletter : OK";
+                    $content .=  "<h5>IsNewsletter : OK";
                 }
                 if ($permissions->isIsVenteBoisson() == true) {
-                    $content .=  "<h5>VentesetIsVenteBoisson : OK";
+                    $content .=  "<h5>IsVenteBoisson : OK";
                 }
                 if ($permissions->isIsOffreSac() == true) {
                     $content .=  "<h5>OffreSac : OK";
                 }
                 if ($permissions->isIsBadgePerso() == true) {
-                    $content .=  "<h5>BasetIsBadgePerso : OK";
+                    $content .=  "<h5>IsBadgePerso : OK";
                 }
                 if ($permissions->isIsVenteMerch() == true) {
-                    $content .=  "<h5>VesetIsVenteMerch : OK";
+                    $content .=  "<h5>IsVenteMerch : OK";
                 }
 
                 $content .= "<hr> <br/><br/><br/>";
@@ -194,7 +192,7 @@ class PartnerController extends AbstractController
             $permId = $p->getId(); // Je récupère l'id de cet objet permission rattaché à l'user.
         }
 
-        $userPermissions = $doctrine->getRepository(Permissions::class)->find($permId); // De cette façon, j'ai récupéré mon objet Entity\Permissions
+        $userPermissions = $doctrine->getRepository(Permission::class)->find($permId); // De cette façon, j'ai récupéré mon objet Entity\Permissions
 
 
         $items = ['user' => $partnerUser, 'partner' => $partner, 'permissions' => $userPermissions]; // Tableau regroupant les 2 entités
@@ -204,7 +202,7 @@ class PartnerController extends AbstractController
                 'isEdit' => true,
             ])
             ->add('partner', PartnerFormType::class)
-            ->add('permissions', PermissionsType::class)
+            ->add('permissions', PermissionType::class)
             ->getForm();
 
         $form->handleRequest($request);
@@ -238,19 +236,19 @@ class PartnerController extends AbstractController
             $content .= "<h3>Vos fonctionnalités activées :";
 
             // Envoi des permissions
-            if ($userPermissions->isIsNesetIsNewsletter() == true) {
+            if ($userPermissions->isIsNewsletter() == true) {
                 $content .=  "<h5>NesetIsNewsletter : OK";
             }
-            if ($userPermissions->isIsVentesetIsVenteBoisson() == true) {
+            if ($userPermissions->isIsVenteBoisson() == true) {
                 $content .=  "<h5>VentesetIsVenteBoisson : OK";
             }
             if ($userPermissions->isIsOffreSac() == true) {
                 $content .=  "<h5>OffreSac : OK";
             }
-            if ($userPermissions->isIsBasetIsBadgePerso() == true) {
+            if ($userPermissions->isIsBadgePerso() == true) {
                 $content .=  "<h5>BasetIsBadgePerso : OK";
             }
-            if ($userPermissions->isIsVesetIsVenteMerch() == true) {
+            if ($userPermissions->isIsVenteMerch() == true) {
                 $content .=  "<h5>VesetIsVenteMerch : OK";
             }
 
@@ -284,7 +282,7 @@ class PartnerController extends AbstractController
             $permId = $p->getId(); // Je récupère l'id de cet objet permission rattaché à l'user.
         }
 
-        $userPermissions = $doctrine->getRepository(Permissions::class)->find($permId); // De cette façon, j'ai récupéré mon objet Entity\Permissions
+        $userPermissions = $doctrine->getRepository(Permission::class)->find($permId); // De cette façon, j'ai récupéré mon objet Entity\Permissions
 
 
         $partnerStructures = $partner->getStructures()->getValues();
@@ -297,7 +295,7 @@ class PartnerController extends AbstractController
                 'isEdit' => true,
             ])
             ->add('partner', PartnerFormShowType::class)
-            ->add('permissions', PermissionsType::class)
+            ->add('permissions', PermissionType::class)
             ->getForm();
 
         $form->handleRequest($request);

@@ -78,9 +78,9 @@ class Structure
 
 
     /**
-     * @return Collection<int, Permission>
+     * @return Collection<int, Permissions>
      */
-    public function getPermission(): Collection
+    public function getPermissions(): Collection
     {
         return $this->permissions;
     }

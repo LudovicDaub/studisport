@@ -66,7 +66,7 @@
                     {{ form_widget(form.structure.postalAdress) }}
                     {{ form_errors(form.structure.postalAdress) }}
                 </div>
-                
+
 
                 <div class="container-fluid h-100">
                     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -81,13 +81,13 @@
                                         <div class="toggle-permissions text-center my-5">
                                             <div class="toggle-permissions-wrapper d-flex justify-content-around my-4 flex-wrap">
                                                 <div class="row">
-                                                    <div class="col permission planning">
-                                                        <div class="form-group {% if partnerPermissions.isPlanning == 0 %} d-none {% endif %} ">
+                                                    <div class="col permission VenteBoisson">
+                                                        <div class="form-group {% if partnerPermissions.isVenteBoisson == 0 %} d-none {% endif %} ">
                                                         <i class="fa-solid fa-calendar-days"></i>
-                                                        <p class="m-0">Planning</p>
-                                                            {{ form_widget(form.permissions.isPlanning) }}
-                                                            {{ form_errors(form.permissions.isPlanning) }}
-                                                        </div>                                                
+                                                        <p class="m-0">VenteBoisson</p>
+                                                            {{ form_widget(form.permissions.isVenteBoisson) }}
+                                                            {{ form_errors(form.permissions.isVenteBoisson) }}
+                                                        </div>
                                                     </div>
 
                                                     <div class="col permission newsletter">
@@ -97,39 +97,39 @@
                                                             {{ form_label(form.permissions.isNewsletter) }}
                                                             {{ form_widget(form.permissions.isNewsletter) }}
                                                             {{ form_errors(form.permissions.isNewsletter) }}
-                                                        </div>                                         
+                                                        </div>
                                                     </div>
 
-                                                    <div class="col permission boissons">
-                                                        <div class="form-group {% if partnerPermissions.isBoissons == 0 %} d-none {% endif %} ">
+                                                    <div class="col permission OffreSac">
+                                                        <div class="form-group {% if partnerPermissions.isOffreSac == 0 %} d-none {% endif %} ">
                                                         <i class="fas fa-cocktail"></i>
-                                                        <p class="m-0">Boissons</p>
-                                                            {{ form_label(form.permissions.isBoissons) }}
-                                                            {{ form_widget(form.permissions.isBoissons) }}
-                                                            {{ form_errors(form.permissions.isBoissons) }}
+                                                        <p class="m-0">OffreSac</p>
+                                                            {{ form_label(form.permissions.isOffreSac) }}
+                                                            {{ form_widget(form.permissions.isOffreSac) }}
+                                                            {{ form_errors(form.permissions.isOffreSac) }}
                                                         </div>
                                                     </div>
 
-                                                    <div class="col permission sms">
-                                                        <div class="form-group {% if partnerPermissions.isSms == 0 %} d-none {% endif %} ">
-                                                        <i class="fa-solid fa-comment-sms"></i>
-                                                        <p class="m-0">SMS</p>
-                                                            {{ form_label(form.permissions.isSms) }}
-                                                            {{ form_widget(form.permissions.isSms) }}
-                                                            {{ form_errors(form.permissions.isSms) }}
+                                                    <div class="col permission BadgePerso">
+                                                        <div class="form-group {% if partnerPermissions.isBadgePerso == 0 %} d-none {% endif %} ">
+                                                        <i class="fa-solid fa-comment-BadgePerso"></i>
+                                                        <p class="m-0">BadgePerso</p>
+                                                            {{ form_label(form.permissions.isBadgePerso) }}
+                                                            {{ form_widget(form.permissions.isBadgePerso) }}
+                                                            {{ form_errors(form.permissions.isBadgePerso) }}
                                                         </div>
                                                     </div>
 
-                                                    <div class="col permission concours">
-                                                        <div class="form-group {% if partnerPermissions.isConcours == 0 %} d-none {% endif %} ">
+                                                    <div class="col permission VenteMerch">
+                                                        <div class="form-group {% if partnerPermissions.isVenteMerch == 0 %} d-none {% endif %} ">
                                                         <i class="fa-solid fa-trophy"></i>
-                                                        <p class="m-0">Concours</p>
-                                                            {{ form_label(form.permissions.isConcours) }}
-                                                            {{ form_widget(form.permissions.isConcours) }}
-                                                            {{ form_errors(form.permissions.isConcours) }}
+                                                        <p class="m-0">VenteMerch</p>
+                                                            {{ form_label(form.permissions.isVenteMerch) }}
+                                                            {{ form_widget(form.permissions.isVenteMerch) }}
+                                                            {{ form_errors(form.permissions.isVenteMerch) }}
                                                         </div>
                                                     </div>
-                                               
+
 
                                                 </div>
                                             </div>
@@ -170,7 +170,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 {{ form_end(form) }}
             </div>
         </div>

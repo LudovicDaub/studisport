@@ -79,11 +79,11 @@
                                                     <div class="col permission newsletter">
                                                         <div class="form-group">
                                                         <i class="fa-solid fa-calendar-days"></i>
-                                                        <p class="m-0">Planning</p>
-                                                            {{ form_widget(form.isPlanning)}}
-                                                            {{ form_errors(form.isPlanning)}}
-                                                            
-                                                        </div>                                                
+                                                        <p class="m-0">VenteBoisson</p>
+                                                            {{ form_widget(form.isVenteBoisson)}}
+                                                            {{ form_errors(form.isVenteBoisson)}}
+
+                                                        </div>
                                                     </div>
 
                                                     <div class="col permission newsletter">
@@ -93,36 +93,36 @@
                                                             {{ form_label(form.isNewsletter)}}
                                                             {{ form_widget(form.isNewsletter)}}
                                                             {{ form_errors(form.isNewsletter)}}
-                                                        </div>                                         
-                                                    </div>
-
-                                                    <div class="col permission newsletter">
-                                                        <div class="form-group">
-                                                        <i class="fas fa-cocktail"></i>
-                                                        <p class="m-0">Boissons</p>
-                                                            {{ form_label(form.isBoissons)}}
-                                                            {{ form_widget(form.isBoissons)}}
-                                                            {{ form_errors(form.isBoissons)}}
                                                         </div>
                                                     </div>
 
                                                     <div class="col permission newsletter">
                                                         <div class="form-group">
-                                                        <i class="fa-solid fa-comment-sms"></i>
-                                                        <p class="m-0">SMS</p>
-                                                            {{ form_label(form.isSms)}}
-                                                            {{ form_widget(form.isSms)}}
-                                                            {{ form_errors(form.isSms)}}
+                                                        <i class="fas fa-cocktail"></i>
+                                                        <p class="m-0">OffreSac</p>
+                                                            {{ form_label(form.isOffreSac)}}
+                                                            {{ form_widget(form.isOffreSac)}}
+                                                            {{ form_errors(form.isOffreSac)}}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col permission newsletter">
+                                                        <div class="form-group">
+                                                        <i class="fa-solid fa-comment-BadgePerso"></i>
+                                                        <p class="m-0">BadgePerso</p>
+                                                            {{ form_label(form.isBadgePerso)}}
+                                                            {{ form_widget(form.isBadgePerso)}}
+                                                            {{ form_errors(form.isBadgePerso)}}
                                                         </div>
                                                     </div>
 
                                                     <div class="col permission newsletter">
                                                         <div class="form-group">
                                                         <i class="fa-solid fa-trophy"></i>
-                                                        <p class="m-0">Concours</p>
-                                                            {{ form_label(form.isConcours)}}
-                                                            {{ form_widget(form.isConcours)}}
-                                                            {{ form_errors(form.isConcours)}}
+                                                        <p class="m-0">VenteMerch</p>
+                                                            {{ form_label(form.isVenteMerch)}}
+                                                            {{ form_widget(form.isVenteMerch)}}
+                                                            {{ form_errors(form.isVenteMerch)}}
                                                         </div>
                                                 </div>
                                             </div>
@@ -161,7 +161,7 @@
                         </div>
                     </div>
                 </div>
-                
+
 
                 {{ form_end(form) }}
             </div>

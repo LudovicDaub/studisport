@@ -1,178 +1,285 @@
-{% extends 'base.html.twig' %}
-
-{% block title %} {{parent() }} | Structures{% endblock %}
-
-{% block header %}{% endblock %}
-{% block topbar %}{% endblock %}
-{% block searchBar %}{% endblock %}
-
-{% block content %}
+{% extends 'base.html.twig' %} {% block title %} {{ parent() }} | Structures{%
+endblock %} {% block header %}{% endblock %} {% block topbar %}{% endblock %} {%
+block searchBar %}{% endblock %} {% block content %}
 
 <div class="container-fluid index">
+  {# Flash message "Correctement ajouté" #} {% for message in
+  app.flashes('success') %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <button
+      type="button"
+      data-bs-dismiss="alert"
+      class="btn-close"
+      aria-label="Close"
+    ></button>
+    {{ message }}
+  </div>
+  {% endfor %} {% for message in app.flashes('danger') %}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button
+      type="button"
+      data-bs-dismiss="alert"
+      class="btn-close"
+      aria-label="Close"
+    ></button>
+    {{ message }}
+  </div>
+  {% endfor %}
 
-    {# Flash message "Correctement ajouté" #}
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <button type="button" data-bs-dismiss="alert" class="btn-close" aria-label="Close"></button>
-            {{ message }}
-        </div>
-    {% endfor %}
+  <h1 class="my-4">STRUCTURES :</h1>
 
-    {% for message in app.flashes('danger') %}
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <button type="button" data-bs-dismiss="alert" class="btn-close" aria-label="Close"></button>
-            {{ message }}
-        </div>
-    {% endfor %}
-
-    <h1 class="my-4">STRUCTURES :</h1>
-
-    <div class="responsive-table-line">
-
-
+  <div class="responsive-table-line">
     <table class="table table-hover text-center">
-        <thead>
-            <tr class="">
-                <th scope="col">ID</th>
-                <th scope="col">Actif</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Partenaire</th>
-                <th scope="col">Planning</th>
-                <th scope="col">Newsletter</th>
-                <th scope="col">Boissons</th>
-                <th scope="col">Sms</th>
-                <th scope="col">Concours</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
+      <thead>
+        <tr class="">
+          <th scope="col">ID</th>
+          <th scope="col">Actif</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Partenaire</th>
+          <th scope="col">Vente de Boisson</th>
+          <th scope="col">Newsletter</th>
+          <th scope="col">OffreSac</th>
+          <th scope="col">BadgePerso</th>
+          <th scope="col">VenteMerch</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if structures|length == 0 %} Vous n'avez crée aucune structures pour
+        le moment. {% else %} {% for structure in structures %} {% for
+        permission in structure.permissions %}
 
-            {% if structures|length == 0 %}
-            Vous n'avez crée aucune structures pour le moment.
+        <tr class="">
+          <td data-title="ID :">{{ structure.id }}</td>
+          <td class="align-middle">
+            {% if structure.user.isActive == true %}
+            <div class="form-check form-check-active">Actif</div>
             {% else %}
+            <div class="form-check form-check-inactive">Inactif</div>
+            {% endif %}
+          </td>
+          <td class="text-center">
+            <div class="form-check form-check-structure">
+              {{ structure.user.name }}
+            </div>
+          </td>
+          <td>
+            <i class="fa fa-handshake"></i>
+            {{ structure.partner }}
+          </td>
 
-            {% for structure in structures %}
+          {# Je catch les permissions "partenaire" du partner via l'index dans
+          le StructureController ($partnerPermissions) #} {# et je vérifie. Si
+          la fonctionnalité est activée dans les permissions personnalisées de
+          la structure "ET" les permissions partenaire, #} {# alors j'affiche
+          mon toggle switch activé. Sinon, il affiche un toggle switch désactivé
+          #} {% for pp in structure.permissions %}
 
+          <td data-title="VenteBoisson :" class="align-middle">
+            {% if (partnerPermissions.isVenteBoisson == true) and
+            (pp.isVenteBoisson == true) %}
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                id="user_isNewsletter"
+                name="user[isNewsletter]"
+                class="custom-control-input"
+                value="1"
+                checked
+                disabled
+              />
+              <label
+                class="switch-custom custom-control-label"
+                for="user_isNewsletter"
+              ></label>
+            </div>
+            {% else %}
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                id="user_isNewsletter"
+                name="user[isNewsletter]"
+                class="custom-control-input"
+                value="0"
+                disabled
+              />
+              <label
+                class="switch-custom custom-control-label"
+                for="user_isNewsletter"
+              ></label>
+            </div>
+            {% endif %}
+          </td>
 
-            {% for permission in structure.permissions %}
+          <td data-title="Newsletter :" class="align-middle">
+            {% if (partnerPermissions.isNewsletter == true) and (pp.isNewsletter
+            == true) %}
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                id="user_isNewsletter"
+                name="user[isNewsletter]"
+                class="custom-control-input"
+                value="1"
+                checked
+                disabled
+              />
+              <label
+                class="switch-custom custom-control-label"
+                for="user_isNewsletter"
+              ></label>
+            </div>
+            {% else %}
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                id="user_isNewsletter"
+                name="user[isNewsletter]"
+                class="custom-control-input"
+                value="0"
+                disabled
+              />
+              <label
+                class="switch-custom custom-control-label"
+                for="user_isNewsletter"
+              ></label>
+            </div>
+            {% endif %}
+          </td>
 
+          <td data-title="OffreSac :" class="align-middle">
+            {% if (partnerPermissions.isOffreSac == true) and (pp.isOffreSac ==
+            true) %}
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                id="user_isOffreSac"
+                name="user[isOffreSac]"
+                class="custom-control-input"
+                value="1"
+                checked
+                disabled
+              />
+              <label
+                class="switch-custom custom-control-label"
+                for="user_isOffreSac"
+              ></label>
+            </div>
+            {% else %}
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                id="user_isOffreSac"
+                name="user[isOffreSac]"
+                class="custom-control-input"
+                value="0"
+                disabled
+              />
+              <label
+                class="switch-custom custom-control-label"
+                for="user_isOffreSac"
+              ></label>
+            </div>
+            {% endif %}
+          </td>
 
-                <tr class="">
-                    <td data-title="ID :">{{ structure.id }}</td>
-                    <td class="align-middle">
-                        {% if structure.user.isActive == true %}
-                            <div class="form-check form-check-active">Actif</div>
-                            {% else %}
-                            <div class="form-check form-check-inactive">Inactif</div>
-                        {% endif %}
-                    </td>
-                    <td class="text-center">
-                        <div class="form-check form-check-structure">
-                            {{ structure.user.name }}
-                        </div>
-                    </td>
-                    <td>
-                        <i class="fa fa-handshake"></i>
-                        {{ structure.partner }}
-                    </td>
+          <td data-title="BadgePerso :" class="align-middle">
+            {% if (partnerPermissions.isBadgePerso == true) and (pp.isBadgePerso
+            == true) %}
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                id="user_isBadgePerso"
+                name="user[isBadgePerso]"
+                class="custom-control-input"
+                value="1"
+                checked
+                disabled
+              />
+              <label
+                class="switch-custom custom-control-label"
+                for="user_isBadgePerso"
+              ></label>
+            </div>
+            {% else %}
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                id="user_isBadgePerso"
+                name="user[isBadgePerso]"
+                class="custom-control-input"
+                value="0"
+                disabled
+              />
+              <label
+                class="switch-custom custom-control-label"
+                for="user_isBadgePerso"
+              ></label>
+            </div>
+            {% endif %}
+          </td>
+          <td data-title="VenteMerch :" class="align-middle">
+            {% if (partnerPermissions.isVenteMerch == true) and (pp.isVenteMerch
+            == true) %}
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                id="user_isVenteMerch"
+                name="user[isVenteMerch]"
+                class="custom-control-input"
+                value="1"
+                checked
+                disabled
+              />
+              <label
+                class="switch-custom custom-control-label"
+                for="user_isVenteMerch"
+              ></label>
+            </div>
+            {% else %}
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                id="user_isVenteMerch"
+                name="user[isVenteMerch]"
+                class="custom-control-input"
+                value="0"
+                disabled
+              />
+              <label
+                class="switch-custom custom-control-label"
+                for="user_isVenteMerch"
+              ></label>
+            </div>
+            {% endif %}
+          </td>
 
-            {# Je catch les permissions "partenaire" du partner via l'index dans le StructureController ($partnerPermissions) #}
-            {# et je vérifie. Si la fonctionnalité est activée dans les permissions personnalisées de la structure "ET" les permissions partenaire, #}
-            {# alors j'affiche mon toggle switch activé. Sinon, il affiche un toggle switch désactivé #}
-            {% for pp in structure.permissions %}
-
-                    
-                    <td data-title="Planning :" class="align-middle ">
-                        {% if (partnerPermissions.isPlanning == true) and (pp.isPlanning == true) %}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="user_isNewsletter" name="user[isNewsletter]" class="custom-control-input" value="1" checked disabled>
-                                <label class="switch-custom custom-control-label" for="user_isNewsletter"></label>
-                            </div>
-                            {% else %}
-                            <div class="custom-control custom-switch ">
-                                <input type="checkbox" id="user_isNewsletter" name="user[isNewsletter]" class="custom-control-input" value="0" disabled>
-                                <label class="switch-custom custom-control-label" for="user_isNewsletter"></label>
-                            </div>
-                        {% endif %}
-                    </td>
-                    
-                    <td data-title="Newsletter :" class="align-middle ">
-                        {% if (partnerPermissions.isNewsletter == true) and (pp.isNewsletter == true) %}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="user_isNewsletter" name="user[isNewsletter]" class="custom-control-input" value="1" checked disabled>
-                                <label class="switch-custom custom-control-label" for="user_isNewsletter"></label>
-                            </div>
-                            {% else %}
-                            <div class="custom-control custom-switch ">
-                                <input type="checkbox" id="user_isNewsletter" name="user[isNewsletter]" class="custom-control-input" value="0" disabled>
-                                <label class="switch-custom custom-control-label" for="user_isNewsletter"></label>
-                            </div>
-                        {% endif %}
-                    </td>
-
-                    <td data-title="Boissons :" class="align-middle ">
-                        {% if (partnerPermissions.isBoissons == true) and (pp.isBoissons == true) %}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="user_isBoissons" name="user[isBoissons]" class="custom-control-input" value="1" checked disabled>
-                                <label class="switch-custom custom-control-label" for="user_isBoissons"></label>
-                            </div>
-                            {% else %}
-                            <div class="custom-control custom-switch ">
-                                <input type="checkbox" id="user_isBoissons" name="user[isBoissons]" class="custom-control-input" value="0" disabled>
-                                <label class="switch-custom custom-control-label" for="user_isBoissons"></label>
-                            </div>
-                        {% endif %}
-                    </td>
-                    
-                    <td data-title="SMS :" class="align-middle ">
-                        {% if (partnerPermissions.isSms == true) and (pp.isSms == true) %}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="user_isSms" name="user[isSms]" class="custom-control-input" value="1" checked disabled>
-                                <label class="switch-custom custom-control-label" for="user_isSms"></label>
-                            </div>
-                            {% else %}
-                            <div class="custom-control custom-switch ">
-                                <input type="checkbox" id="user_isSms" name="user[isSms]" class="custom-control-input" value="0" disabled>
-                                <label class="switch-custom custom-control-label" for="user_isSms"></label>
-                            </div>
-                        {% endif %}
-                    </td>
-                    <td data-title="Concours :" class="align-middle  ">
-                        {% if (partnerPermissions.isConcours == true) and (pp.isConcours == true) %}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="user_isConcours" name="user[isConcours]" class="custom-control-input" value="1" checked disabled>
-                                <label class="switch-custom custom-control-label" for="user_isConcours"></label>
-                            </div>
-                            {% else %}
-                            <div class="custom-control custom-switch ">
-                                <input type="checkbox" id="user_isConcours" name="user[isConcours]" class="custom-control-input" value="0" disabled>
-                                <label class="switch-custom custom-control-label" for="user_isConcours"></label>
-                            </div>
-                        {% endif %}
-                    </td>
-                  
-                    <td class="align-middle">
-                        <a class="crud-button link-primary fa fa-pen-square mx-2" aria-label="Editer" href="{{ path('app_structure_edit', {'id': structure.id}) }}"></a>
-                        <a class="crud-button link-success fa fa-eye mx-2" href="{{ path('app_structure_show', {'id': structure.id}) }}"></a>
-                        <a class="crud-button link-danger fa fa-trash mx-2 confirm-action" href="{{ path('app_structure_delete', {'id':structure.id}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette structure ?')"></a>
-                    </td>
-
-                </tr>
-                {% endfor %}
-            {% endfor %}
-                        {% endfor %}
-
-                                    {% endif %}
-
-            
-        </tbody>
-    
+          <td class="align-middle">
+            <a
+              class="crud-button link-primary fa fa-pen-square mx-2"
+              aria-label="Editer"
+              href="{{ path('app_structure_edit', { id: structure.id }) }}"
+            ></a>
+            <a
+              class="crud-button link-success fa fa-eye mx-2"
+              href="{{ path('app_structure_show', { id: structure.id }) }}"
+            ></a>
+            <a
+              class="crud-button link-danger fa fa-trash mx-2 confirm-action"
+              href="{{ path('app_structure_delete', { id: structure.id }) }}"
+              onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette structure ?')"
+            ></a>
+          </td>
+        </tr>
+        {% endfor %} {% endfor %} {% endfor %} {% endif %}
+      </tbody>
     </table>
-</div>
+  </div>
 
-    <a class="btn btn-primary" href="{{ path('app_structure_new') }}">Ajouter une nouvelle structure </a>
-
+  <a class="btn btn-primary" href="{{ path('app_structure_new') }}"
+    >Ajouter une nouvelle structure
+  </a>
 </div>
 
 {% endblock %}
