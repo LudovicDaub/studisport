@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Classe\Search;
 use App\Entity\Structure;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Structure>
@@ -39,28 +40,35 @@ class StructureRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Structure[] Returns an array of Structure objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * Requête qui me permet de récupérer les partenaires en fonction de la recherche effectuée dans le form
+     * @return Structure[]
+     */
+    public function findWithSearch(Search $search)
+    {
+        $query = $this
+            ->createQueryBuilder('s')
+            ->join('s.user', 'r');
 
-//    public function findOneBySomeField($value): ?Structure
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if (!empty($search->string)) {
+            $query = $query
+                ->where('r.name LIKE :string')
+                ->setParameter('string', "%{$search->string}%");
+        }
+
+        if (!empty($search->active)) {
+            $query = $query
+                ->leftJoin('s.user', 'u')
+                ->andWhere('u.isActive = 1');
+        }
+
+        if (!empty($search->inactive)) {
+            $query = $query
+                ->leftJoin('s.user', 'i')
+                ->andWhere('i.isActive = 0');
+        }
+
+
+        return $query->getQuery()->getResult();
+    }
 }

@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Classe\Search;
 use App\Entity\Partner;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Partner>
@@ -39,28 +42,33 @@ class PartnerRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Partner[] Returns an array of Partner objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * Requête qui me permet de récupérer les partenaires en fonction de la recherche effectuée dans le form
+     * @return Partner[]
+     */
+    public function findWithSearch(Search $search)
+    {
+        $query = $this
+            ->createQueryBuilder('p');
 
-//    public function findOneBySomeField($value): ?Partner
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if (!empty($search->string)) {
+            $query = $query
+                ->andWhere('p.name LIKE :string')
+                ->setParameter('string', "%{$search->string}%");
+        }
+
+        if (!empty($search->active)) {
+            $query = $query
+                ->leftJoin('p.user', 'u')
+                ->andWhere('u.isActive = 1');
+        }
+
+        if (!empty($search->inactive)) {
+            $query = $query
+                ->leftJoin('p.user', 'i')
+                ->andWhere('i.isActive = 0');
+        }
+
+        return $query->getQuery()->getResult();
+    }
 }
