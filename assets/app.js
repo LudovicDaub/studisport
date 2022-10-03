@@ -11,6 +11,9 @@ import './styles/app.css'
 // start the Stimulus application
 import './bootstrap'
 
+// Dashboard.js
+import './dashboard.js'
+
 // Filter
 import Filter from './filter.js'
 
