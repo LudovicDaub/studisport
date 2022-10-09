@@ -42,7 +42,7 @@ class Partner
         return $this->id;
     }
 
-    public function getUser(): User
+    public function getUser()
     {
         return $this->user;
     }

@@ -106,11 +106,11 @@ class PartnerController extends AbstractController
                 $user->setRoles(['ROLE_PARTENAIRE']);
 
                 // Je récupère les données non mappées du formulaire et les injecte dans mon objet  Permissions
-                $permissions->setIsNewsletter($form->get('isIsNewsletter')->getData());
-                $permissions->setIsVenteBoisson($form->get('isIsVenteBoisson')->getData());
+                $permissions->setIsNewsletter($form->get('isNewsletter')->getData());
+                $permissions->setIsVenteBoisson($form->get('isVenteBoisson')->getData());
                 $permissions->setIsOffreSac($form->get('isOffreSac')->getData());
-                $permissions->setIsBadgePerso($form->get('isIsBadgePerso')->getData());
-                $permissions->setIsVenteMerch($form->get('isIsVenteMerch')->getData());
+                $permissions->setIsBadgePerso($form->get('isBadgePerso')->getData());
+                $permissions->setIsVenteMerch($form->get('isVenteMerch')->getData());
 
                 // Je déclare que mon partenaire a de nouvelles permissions et que cet objet    permissions a un nouveau partenaire
                 $partner->addPermission($permissions);
@@ -157,7 +157,7 @@ class PartnerController extends AbstractController
 
                 $content .= "<hr> <br/><br/><br/>";
                 $content .= "Votre email de connexion est " . $user->getEmail() . ".<br><br>";
-                $content .= "<h3>Pour des raisons de sécurité, vous devez demander à redéfinir votre mot de passe en <a href='https://sfg.nicolasbarthes.com" . $resetPasswordUrl . "'> CLIQUANT ICI </a>. Une fois la demande de réinitialisation effectuée, vous disposerez de 3 heures pour le modifier.</h3><br/><br/><br/>";
+                $content .= "<h3>Pour des raisons de sécurité, vous devez demander à redéfinir votre mot de passe en <a href='#" . $resetPasswordUrl . "'> CLIQUANT ICI </a>. Une fois la demande de réinitialisation effectuée, vous disposerez de 3 heures pour le modifier.</h3><br/><br/><br/>";
 
                 $content .= "A très bientôt chez STUDI FITNESS !";
 
@@ -237,19 +237,19 @@ class PartnerController extends AbstractController
 
             // Envoi des permissions
             if ($userPermissions->isIsNewsletter() == true) {
-                $content .=  "<h5>NesetIsNewsletter : OK";
+                $content .=  "<h5>setIsNewsletter : OK";
             }
             if ($userPermissions->isIsVenteBoisson() == true) {
-                $content .=  "<h5>VentesetIsVenteBoisson : OK";
+                $content .=  "<h5>setIsVenteBoisson : OK";
             }
             if ($userPermissions->isIsOffreSac() == true) {
                 $content .=  "<h5>OffreSac : OK";
             }
             if ($userPermissions->isIsBadgePerso() == true) {
-                $content .=  "<h5>BasetIsBadgePerso : OK";
+                $content .=  "<h5>setIsBadgePerso : OK";
             }
             if ($userPermissions->isIsVenteMerch() == true) {
-                $content .=  "<h5>VesetIsVenteMerch : OK";
+                $content .=  "<h5>setIsVenteMerch : OK";
             }
 
             $content .= "<hr>";

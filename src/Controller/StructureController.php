@@ -144,11 +144,11 @@ class StructureController extends AbstractController
 
                 $userPermissions = $doctrine->getRepository(Permission::class)->find($permId); // De cette façon, j'ai récupéré mon objet Entity\Permissions
 
-                $permissions->setIsBadgePerso($userPermissions->isIssetIsBadgePerso());
+                $permissions->setIsBadgePerso($userPermissions->isIsBadgePerso());
                 $permissions->setIsNewsletter($userPermissions->isIsNewsletter());
-                $permissions->setIsOffreSac($userPermissions->isIssetIsOffreSac());
-                $permissions->setIsVenteBoisson($userPermissions->isIssetIsVenteBoisson());
-                $permissions->setIsVenteMerch($userPermissions->isIssetIsVenteMerch());
+                $permissions->setIsOffreSac($userPermissions->isIsOffreSac());
+                $permissions->setIsVenteBoisson($userPermissions->isIsVenteBoisson());
+                $permissions->setIsVenteMerch($userPermissions->isIsVenteMerch());
 
                 $structure->addPermission($permissions);
                 $permissions->addStructure($structure);
@@ -179,7 +179,7 @@ class StructureController extends AbstractController
 
                 // Envoi d'un mail à la structure :
                 // Contenu :
-                $content = "Bonjour " . $user->getName() . "<br/><br/>Vous disposez désormais d'un compte STRUCTURE pour votre établissement à l'adresse : " . $structure->getPostalAdress() . ", et d'un accès en lecture seule au panel d'administration de STUDI FITNESS.<br/><br/> Vous pourrez y découvrir vos informations sur votre structure et le partenaire auquel vous êtes rattachée.<br/><br/> Votre email de connexion est " . $user->getEmail() . ".<br><br/> Pour des raisons de sécurité, vous devez demander à redéfinir votre mot de passe en <a href='https://sfg.nicolasbarthes.com" . $resetPasswordUrl . "'> cliquant ici </a>. Une fois la demande de réinitialisation effectuée, vous disposerez de 3 heures pour le modifier.<br/><br/><br/> A très bientôt chez STUDI FITNESS !";
+                $content = "Bonjour " . $user->getName() . "<br/><br/>Vous disposez désormais d'un compte STRUCTURE pour votre établissement à l'adresse : " . $structure->getPostalAdress() . ", et d'un accès en lecture seule au panel d'administration de STUDI FITNESS.<br/><br/> Vous pourrez y découvrir vos informations sur votre structure et le partenaire auquel vous êtes rattachée.<br/><br/> Votre email de connexion est " . $user->getEmail() . ".<br><br/> Pour des raisons de sécurité, vous devez demander à redéfinir votre mot de passe en <a href='#" . $resetPasswordUrl . "'> cliquant ici </a>. Une fois la demande de réinitialisation effectuée, vous disposerez de 3 heures pour le modifier.<br/><br/><br/> A très bientôt chez STUDI FITNESS !";
 
                 // Envoi
                 $mail2->send($user->getEmail(), $user->getName(), 'Vous avez un nouveau compte STRUCTURE !', $content);
