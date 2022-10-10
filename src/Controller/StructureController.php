@@ -102,7 +102,7 @@ class StructureController extends AbstractController
         $notification = null;
 
         $user = new User(); // J'instancie ma classe User()
-        $structure = new Structure(); // J'instancie ma classe User()
+        $structure = new Structure(); // J'instancie ma classe Structure()
         $permissions = new Permission();
 
         $form = $this->createForm(StructureType::class); // Mon formulaire UserType
@@ -144,11 +144,11 @@ class StructureController extends AbstractController
 
                 $userPermissions = $doctrine->getRepository(Permission::class)->find($permId); // De cette façon, j'ai récupéré mon objet Entity\Permissions
 
-                $permissions->setIsBadgePerso($userPermissions->isIssetIsBadgePerso());
+                $permissions->setIsBadgePerso($userPermissions->isIsBadgePerso());
                 $permissions->setIsNewsletter($userPermissions->isIsNewsletter());
-                $permissions->setIsOffreSac($userPermissions->isIssetIsOffreSac());
-                $permissions->setIsVenteBoisson($userPermissions->isIssetIsVenteBoisson());
-                $permissions->setIsVenteMerch($userPermissions->isIssetIsVenteMerch());
+                $permissions->setIsOffreSac($userPermissions->isIsOffreSac());
+                $permissions->setIsVenteBoisson($userPermissions->isIsVenteBoisson());
+                $permissions->setIsVenteMerch($userPermissions->isIsVenteMerch());
 
                 $structure->addPermission($permissions);
                 $permissions->addStructure($structure);
@@ -172,14 +172,14 @@ class StructureController extends AbstractController
                 $partnerSelectedName = $structure->getPartner()->getName();
 
                 // Contenu
-                $content = "Bonjour " . $partnerSelectedName . "<br/><br/> Félicitations ! Une nouvelle STRUCTURE appartenant à " . $user->getName() . " et située à " . $structure->getPostalAdress() . " a été ajoutée et liée à votre compte PARTENAIRE. <br/> Son email de connexion est " . $user->getEmail() . ". Elle dispose donc par défaut des mêmes permissions auxquelles votre contrat vous donne droit, et pourra choisir de les activer ou désactiver selon ses souhaits. <br><br/> <br/><br/><br/> A très bientôt chez STUDI FITNESS !";
+                $content = "Bonjour " . $partnerSelectedName . "<br/><br/> Félicitations ! Une nouvelle STRUCTURE appartenant à " . $user->getName() . " et située à " . $structure->getPostalAdress() . " a été ajoutée et liée à votre compte PARTENAIRE. <br/> Son email de connexion est " . $user->getEmail() . ". Elle dispose donc par défaut des mêmes permissions auxquelles votre contrat vous donne droit, et pourra choisir de les activer ou désactiver selon ses souhaits. <br><br/> <br/><br/><br/> A très bientôt chez STUDI SPORT !";
 
                 // Envoi
                 $mail1->send($partnerSelectedEmail, $user->getName(), 'Une nouvelle structure pour votre franchise a été ajoutée !', $content);
 
                 // Envoi d'un mail à la structure :
                 // Contenu :
-                $content = "Bonjour " . $user->getName() . "<br/><br/>Vous disposez désormais d'un compte STRUCTURE pour votre établissement à l'adresse : " . $structure->getPostalAdress() . ", et d'un accès en lecture seule au panel d'administration de STUDI FITNESS.<br/><br/> Vous pourrez y découvrir vos informations sur votre structure et le partenaire auquel vous êtes rattachée.<br/><br/> Votre email de connexion est " . $user->getEmail() . ".<br><br/> Pour des raisons de sécurité, vous devez demander à redéfinir votre mot de passe en <a href='https://sfg.nicolasbarthes.com" . $resetPasswordUrl . "'> cliquant ici </a>. Une fois la demande de réinitialisation effectuée, vous disposerez de 3 heures pour le modifier.<br/><br/><br/> A très bientôt chez STUDI FITNESS !";
+                $content = "Bonjour " . $user->getName() . "<br/><br/>Vous disposez désormais d'un compte STRUCTURE pour votre établissement à l'adresse : " . $structure->getPostalAdress() . ", et d'un accès en lecture seule au panel d'administration de STUDI FITNESS.<br/><br/> Vous pourrez y découvrir vos informations sur votre structure et le partenaire auquel vous êtes rattachée.<br/><br/> Votre email de connexion est " . $user->getEmail() . ".<br><br/> Pour des raisons de sécurité, vous devez demander à redéfinir votre mot de passe en <a href='#" . $resetPasswordUrl . "'> cliquant ici </a>. Une fois la demande de réinitialisation effectuée, vous disposerez de 3 heures pour le modifier.<br/><br/><br/> A très bientôt chez STUDI SPORT !";
 
                 // Envoi
                 $mail2->send($user->getEmail(), $user->getName(), 'Vous avez un nouveau compte STRUCTURE !', $content);
@@ -270,23 +270,23 @@ class StructureController extends AbstractController
 
             // Envoi des permissions
             if ($userPermissions->isIsBadgePerso() == true) {
-                $content .=  "<h5>setIsBadgePerso : OK";
+                $content .=  "<h5>Badge Personnalisé : OK";
             }
             if ($userPermissions->isIsNewsletter() == true) {
                 $content .=  "<h5>Newsletter : OK";
             }
             if ($userPermissions->isIsOffreSac() == true) {
-                $content .=  "<h5>setIsOffreSac : OK";
+                $content .=  "<h5>Sac offert : OK";
             }
             if ($userPermissions->isIsVenteBoisson() == true) {
-                $content .=  "<h5>setIsVenteBoisson : OK";
+                $content .=  "<h5>Vente de Boisson : OK";
             }
             if ($userPermissions->isIsVenteMerch() == true) {
-                $content .=  "<h5>setIsVenteMerch : OK";
+                $content .=  "<h5>Vente de Merchandising : OK";
             }
 
             $content .= "<hr>";
-            $content .= "Pour toute autre besoin de modification, veuillez contacter <a href='#'> l'administrateur STUDI FITNESS </a>";
+            $content .= "Pour toute autre besoin de modification, veuillez contacter l'administrateur STUDI FITNESS </a>";
 
             $mail->send($structureUser->getEmail(), $structureUser->getName(), 'Mise à jour de vos informations et permissions STRUCTURE', $content);
 
@@ -297,7 +297,7 @@ class StructureController extends AbstractController
 
             // Contenu
             $content = "Bonjour " . $partnerSelectedName . "<br/><br/>";
-            $content .= "Votre STRUCTURE située au " . $structure->getPostalAdress() . " a effectuée des modifications de ses informations auprès de STUDI FITNESS. Vous les retrouverez ci-dessous :<br/><br/>";
+            $content .= "Votre STRUCTURE située au " . $structure->getPostalAdress() . " a effectuée des modifications de ses informations auprès de STUDI SPORT. Vous les retrouverez ci-dessous :<br/><br/>";
             $content .= "<hr>";
             $content .= "<h3>Informations de votre structure :";
             $content .= "<h5>Nom de l'utilisateur : " . $structureUser->getName();
@@ -307,23 +307,23 @@ class StructureController extends AbstractController
 
             // Envoi des permissions
             if ($userPermissions->isIsBadgePerso() == true) {
-                $content .=  "<h5>setIsBadgePerso : OK";
+                $content .=  "<h5>Badge Personnalisé : OK";
             }
             if ($userPermissions->isIsNewsletter() == true) {
                 $content .=  "<h5>Newsletter : OK";
             }
             if ($userPermissions->isIsOffreSac() == true) {
-                $content .=  "<h5>setIsOffreSac : OK";
+                $content .=  "<h5>Sac offert : OK";
             }
             if ($userPermissions->isIsVenteBoisson() == true) {
-                $content .=  "<h5>setIsVenteBoisson : OK";
+                $content .=  "<h5>Vente de Boisson : OK";
             }
             if ($userPermissions->isIsVenteMerch() == true) {
-                $content .=  "<h5>setIsVenteMerch : OK";
+                $content .=  "<h5>Vente de Merchandising : OK";
             }
 
             $content .= "<hr>";
-            $content .= "Pour toute autre besoin de modification, veuillez contacter <a href='#'> l'administrateur STUDI FITNESS </a>";
+            $content .= "Pour toute autre besoin de modification, veuillez contacter <a href='#'> l'administrateur STUDI SPORT </a>";
 
             // Envoi
             $mail2->send($partnerSelectedEmail, $partnerSelectedName, 'Mise à jour des informations de l\'une de vos structures', $content);

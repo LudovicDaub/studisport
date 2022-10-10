@@ -11,9 +11,8 @@ use App\Form\SearchType;
 use App\Form\PartnerType;
 use App\Entity\Permission;
 use App\Form\UserShowType;
-use App\Entity\Permissions;
+use App\Form\PermissionType;
 use App\Form\PartnerFormType;
-use App\Form\PermissionsType;
 use App\Form\PartnerFormShowType;
 use App\Repository\UserRepository;
 use App\Repository\PartnerRepository;
@@ -61,7 +60,6 @@ class PartnerController extends AbstractController
         }
 
         return $this->render('partner/index.html.twig', [
-            // 'users' => $users,
             'partners' => $partners,
             'permissions' => $permissionRepository->findAll(),
             'form' => $form->createView()
@@ -108,11 +106,11 @@ class PartnerController extends AbstractController
                 $user->setRoles(['ROLE_PARTENAIRE']);
 
                 // Je récupère les données non mappées du formulaire et les injecte dans mon objet  Permissions
-                $permissions->setIsNewsletter($form->get('isNesetIsNewsletter')->getData());
-                $permissions->setIsVenteBoisson($form->get('isVentesetIsVenteBoisson')->getData());
+                $permissions->setIsNewsletter($form->get('isNewsletter')->getData());
+                $permissions->setIsVenteBoisson($form->get('isVenteBoisson')->getData());
                 $permissions->setIsOffreSac($form->get('isOffreSac')->getData());
-                $permissions->setIsBadgePerso($form->get('isBasetIsBadgePerso')->getData());
-                $permissions->setIsVenteMerch($form->get('isVesetIsVenteMerch')->getData());
+                $permissions->setIsBadgePerso($form->get('isBadgePerso')->getData());
+                $permissions->setIsVenteMerch($form->get('isVenteMerch')->getData());
 
                 // Je déclare que mon partenaire a de nouvelles permissions et que cet objet    permissions a un nouveau partenaire
                 $partner->addPermission($permissions);
@@ -130,7 +128,7 @@ class PartnerController extends AbstractController
                 $resetPasswordUrl = $this->generateUrl('app_reset_password');
                 $mail = new Mail();
 
-                $content = "Bonjour " . $user->getName() . "<br/><br/>Vous disposez désormais d'un compte PARTENAIRE pour votre établissement " . $partner->getName() . ", et d'un accès en lecture seule au panel d'administration de STUDI FITNESS.<br/><br/> Vous pourrez y découvrir vos STRUCTURES (clubs) rattachées à votre établissement.<br/><br/>";
+                $content = "Bonjour " . $user->getName() . "<br/><br/>Vous disposez désormais d'un compte PARTENAIRE pour votre établissement " . $partner->getName() . ", et d'un accès en lecture seule au panel d'administration de STUDI SPORT.<br/><br/> Vous pourrez y découvrir vos STRUCTURES (clubs) rattachées à votre établissement.<br/><br/>";
 
                 $content .= "<hr>";
                 $content .= "<h3>Vos informations de connexion :";
@@ -142,26 +140,26 @@ class PartnerController extends AbstractController
 
                 // Envoi des permissions
                 if ($permissions->isIsNewsletter() == true) {
-                    $content .=  "<h5>NesetIsNewsletter : OK";
+                    $content .=  "<h5>Newsletter : OK";
                 }
                 if ($permissions->isIsVenteBoisson() == true) {
-                    $content .=  "<h5>VentesetIsVenteBoisson : OK";
+                    $content .=  "<h5>Vente de Boisson : OK";
                 }
                 if ($permissions->isIsOffreSac() == true) {
-                    $content .=  "<h5>OffreSac : OK";
+                    $content .=  "<h5>Sac offert : OK";
                 }
                 if ($permissions->isIsBadgePerso() == true) {
-                    $content .=  "<h5>BasetIsBadgePerso : OK";
+                    $content .=  "<h5>Badge Personnalisé : OK";
                 }
                 if ($permissions->isIsVenteMerch() == true) {
-                    $content .=  "<h5>VesetIsVenteMerch : OK";
+                    $content .=  "<h5>Vente de Merchandising : OK";
                 }
 
                 $content .= "<hr> <br/><br/><br/>";
                 $content .= "Votre email de connexion est " . $user->getEmail() . ".<br><br>";
-                $content .= "<h3>Pour des raisons de sécurité, vous devez demander à redéfinir votre mot de passe en <a href='https://sfg.nicolasbarthes.com" . $resetPasswordUrl . "'> CLIQUANT ICI </a>. Une fois la demande de réinitialisation effectuée, vous disposerez de 3 heures pour le modifier.</h3><br/><br/><br/>";
+                $content .= "<h3>Pour des raisons de sécurité, vous devez demander à redéfinir votre mot de passe en <a href='#" . $resetPasswordUrl . "'> CLIQUANT ICI </a>. Une fois la demande de réinitialisation effectuée, vous disposerez de 3 heures pour le modifier.</h3><br/><br/><br/>";
 
-                $content .= "A très bientôt chez STUDI FITNESS !";
+                $content .= "A très bientôt chez STUDI SPORT !";
 
                 $mail->send($user->getEmail(), $user->getName(), 'Vous avez un nouveau compte PARTENAIRE !', $content);
                 // ***************************************************************** \\\
@@ -194,7 +192,7 @@ class PartnerController extends AbstractController
             $permId = $p->getId(); // Je récupère l'id de cet objet permission rattaché à l'user.
         }
 
-        $userPermissions = $doctrine->getRepository(Permissions::class)->find($permId); // De cette façon, j'ai récupéré mon objet Entity\Permissions
+        $userPermissions = $doctrine->getRepository(Permission::class)->find($permId); // De cette façon, j'ai récupéré mon objet Entity\Permissions
 
 
         $items = ['user' => $partnerUser, 'partner' => $partner, 'permissions' => $userPermissions]; // Tableau regroupant les 2 entités
@@ -204,7 +202,7 @@ class PartnerController extends AbstractController
                 'isEdit' => true,
             ])
             ->add('partner', PartnerFormType::class)
-            ->add('permissions', PermissionsType::class)
+            ->add('permissions', PermissionType::class)
             ->getForm();
 
         $form->handleRequest($request);
@@ -228,7 +226,7 @@ class PartnerController extends AbstractController
             $mail = new Mail();
 
             $content = "Bonjour " . $partnerUser->getName() . "<br/><br/>";
-            $content .= "Suite à votre demande, les informations de votre partenaire " . $partner->getName() . " ont été mises à jour par un administrateur STUDI FITNESS. Vous les retrouverez ci-dessous :<br/><br/>";
+            $content .= "Suite à votre demande, les informations de votre partenaire " . $partner->getName() . " ont été mises à jour par un administrateur STUDI SPORT. Vous les retrouverez ci-dessous :<br/><br/>";
             $content .= "<hr>";
             $content .= "<h3>Vos informations de connexion :";
             $content .= "<h5>Email de connexion : " . $partnerUser->getEmail();
@@ -238,24 +236,24 @@ class PartnerController extends AbstractController
             $content .= "<h3>Vos fonctionnalités activées :";
 
             // Envoi des permissions
-            if ($userPermissions->isIsNesetIsNewsletter() == true) {
-                $content .=  "<h5>NesetIsNewsletter : OK";
+            if ($userPermissions->isIsNewsletter() == true) {
+                $content .=  "<h5>Newsletter : OK";
             }
-            if ($userPermissions->isIsVentesetIsVenteBoisson() == true) {
-                $content .=  "<h5>VentesetIsVenteBoisson : OK";
+            if ($userPermissions->isIsVenteBoisson() == true) {
+                $content .=  "<h5>Vente de Boisson : OK";
             }
             if ($userPermissions->isIsOffreSac() == true) {
-                $content .=  "<h5>OffreSac : OK";
+                $content .=  "<h5>Sac offert : OK";
             }
-            if ($userPermissions->isIsBasetIsBadgePerso() == true) {
-                $content .=  "<h5>BasetIsBadgePerso : OK";
+            if ($userPermissions->isIsBadgePerso() == true) {
+                $content .=  "<h5>Badge Personnalisé : OK";
             }
-            if ($userPermissions->isIsVesetIsVenteMerch() == true) {
-                $content .=  "<h5>VesetIsVenteMerch : OK";
+            if ($userPermissions->isIsVenteMerch() == true) {
+                $content .=  "<h5>Vente de Merchandising : OK";
             }
 
             $content .= "<hr>";
-            $content .= "Pour toute autre besoin de modification, veuillez contacter <a href='#'> l'administrateur STUDI FITNESS </a>";
+            $content .= "Pour toute autre besoin de modification, veuillez contacter <a href='#'> l'administrateur STUDI SPORT </a>";
 
             $mail->send($partnerUser->getEmail(), $partnerUser->getName(), 'Mise à jour de vos informations et permissions PARTENAIRE', $content);
             // ***************************************************************** \\\
@@ -284,7 +282,7 @@ class PartnerController extends AbstractController
             $permId = $p->getId(); // Je récupère l'id de cet objet permission rattaché à l'user.
         }
 
-        $userPermissions = $doctrine->getRepository(Permissions::class)->find($permId); // De cette façon, j'ai récupéré mon objet Entity\Permissions
+        $userPermissions = $doctrine->getRepository(Permission::class)->find($permId); // De cette façon, j'ai récupéré mon objet Entity\Permissions
 
 
         $partnerStructures = $partner->getStructures()->getValues();
@@ -297,7 +295,7 @@ class PartnerController extends AbstractController
                 'isEdit' => true,
             ])
             ->add('partner', PartnerFormShowType::class)
-            ->add('permissions', PermissionsType::class)
+            ->add('permissions', PermissionType::class)
             ->getForm();
 
         $form->handleRequest($request);

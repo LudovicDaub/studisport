@@ -30,10 +30,10 @@ class Permission
     #[ORM\Column]
     private ?bool $isVenteMerch = null;
 
-    #[ORM\ManyToMany(targetEntity: Partner::class, inversedBy: 'permissions')]
+    #[ORM\ManyToMany(targetEntity: Partner::class, mappedBy: 'permissions')]
     private Collection $partners;
 
-    #[ORM\ManyToMany(targetEntity: Structure::class, inversedBy: 'permissions')]
+    #[ORM\ManyToMany(targetEntity: Structure::class, mappedBy: 'permissions')]
     private Collection $structures;
 
     public function __construct()

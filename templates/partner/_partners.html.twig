@@ -1,127 +1,285 @@
-{% for partner in partners %}
-                {% for permission in partner.permissions %}
-                
-                <tr class="align-middle ">
-                    <td data-title="ID :">{{ partner.id }}</td>
-                    <td class="align-middle">
-                        <a class="form-check form-check-partner partner-name text-decoration-none card" href="{{ path('app_partner_edit', {'id': partner.id}) }}">
-                            {{ partner.name }}
-                        </a>
-                    </td>
-                    <td class="align-middle">{{ partner.user.email }}</td>
+{% for partner in partners %} {% for permission in partner.permissions %}
 
+<tr class="align-middle">
+  <td data-title="ID :">{{ partner.id }}</td>
+  <td class="align-middle">
+    <a
+      class="form-check form-check-partner partner-name text-decoration-none card"
+      href="{{ path('app_partner_edit', { id: partner.id }) }}"
+    >
+      {{ partner.name }}
+    </a>
+  </td>
+  <td class="align-middle">{{ partner.user.email }}</td>
 
-                    <td data-title="Planning :" class="align-middle">
-                        {% if permission.isPlanning == true %}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="user_isPlanning" name="user[isPlanning]" class="custom-control-input" value="1" checked disabled>
-                                <label class="switch-custom custom-control-label" for="user_isPlanning"></label>
-                            </div>
-                            {% else %}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="user_isPlanning" name="user[isPlanning]" class="custom-control-input" value="0" disabled>
-                                <label class="switch-custom custom-control-label" for="user_isPlanning"></label>
-                            </div>
-                        {% endif %}
-                    </td>
-                    <td data-title="Newsletter :" class="align-middle">
-                        {% if permission.isNewsletter == true %}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="user_isNewsletter" name="user[isNewsletter]" class="custom-control-input" value="1" checked disabled>
-                                <label class="switch-custom custom-control-label" for="user_isNewsletter"></label>
-                            </div>
-                            {% else %}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="user_isNewsletter" name="user[isNewsletter]" class="custom-control-input" value="0" disabled>
-                                <label class="switch-custom custom-control-label" for="user_isNewsletter"></label>
-                            </div>
-                        {% endif %}
-                    </td>
-                    <td data-title="Boissons :" class="align-middle">
-                        {% if permission.isBoissons == true %}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="user_isBoissons" name="user[isBoissons]" class="custom-control-input" value="1" checked disabled>
-                                <label class="switch-custom custom-control-label" for="user_isBoissons"></label>
-                            </div>
-                            {% else %}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="user_isBoissons" name="user[isBoissons]" class="custom-control-input" value="0" disabled>
-                                <label class="switch-custom custom-control-label" for="user_isBoissons"></label>
-                            </div>
-                        {% endif %}
-                    </td>
-                    <td data-title="SMS :" class="align-middle">
-                        {% if permission.isSms == true %}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="user_isSms" name="user[isSms]" class="custom-control-input" value="1" checked disabled>
-                                <label class="switch-custom custom-control-label" for="user_isSms"></label>
-                            </div>
-                            {% else %}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="user_isSms" name="user[isSms]" class="custom-control-input" value="0" disabled>
-                                <label class="switch-custom custom-control-label" for="user_isSms"></label>
-                            </div>
-                        {% endif %}
-                    </td>
-                    <td data-title="Concours :" class="align-middle">
-                        {% if permission.isConcours == true %}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="user_isConcours" name="user[isConcours]" class="custom-control-input" value="1" checked disabled>
-                                <label class="switch-custom custom-control-label" for="user_isConcours"></label>
-                            </div>
-                            {% else %}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="user_isConcours" name="user[isConcours]" class="custom-control-input" value="0" disabled>
-                                <label class="switch-custom custom-control-label" for="user_isConcours"></label>
-                            </div>
-                        {% endif %}
-                    </td>
+  <td data-title="VenteBoisson :" class="align-middle">
+    {% if permission.isVenteBoisson == true %}
+    <div class="custom-control custom-switch">
+      <input
+        type="checkbox"
+        id="user_isVenteBoisson"
+        name="user[isVenteBoisson]"
+        class="custom-control-input"
+        value="1"
+        checked
+        disabled
+      />
+      <label
+        class="switch-custom custom-control-label"
+        for="user_isVenteBoisson"
+      ></label>
+    </div>
+    {% else %}
+    <div class="custom-control custom-switch">
+      <input
+        type="checkbox"
+        id="user_isVenteBoisson"
+        name="user[isVenteBoisson]"
+        class="custom-control-input"
+        value="0"
+        disabled
+      />
+      <label
+        class="switch-custom custom-control-label"
+        for="user_isVenteBoisson"
+      ></label>
+    </div>
+    {% endif %}
+  </td>
+  <td data-title="Newsletter :" class="align-middle">
+    {% if permission.isNewsletter == true %}
+    <div class="custom-control custom-switch">
+      <input
+        type="checkbox"
+        id="user_isNewsletter"
+        name="user[isNewsletter]"
+        class="custom-control-input"
+        value="1"
+        checked
+        disabled
+      />
+      <label
+        class="switch-custom custom-control-label"
+        for="user_isNewsletter"
+      ></label>
+    </div>
+    {% else %}
+    <div class="custom-control custom-switch">
+      <input
+        type="checkbox"
+        id="user_isNewsletter"
+        name="user[isNewsletter]"
+        class="custom-control-input"
+        value="0"
+        disabled
+      />
+      <label
+        class="switch-custom custom-control-label"
+        for="user_isNewsletter"
+      ></label>
+    </div>
+    {% endif %}
+  </td>
+  <td data-title="OffreSac :" class="align-middle">
+    {% if permission.isOffreSac == true %}
+    <div class="custom-control custom-switch">
+      <input
+        type="checkbox"
+        id="user_isOffreSac"
+        name="user[isOffreSac]"
+        class="custom-control-input"
+        value="1"
+        checked
+        disabled
+      />
+      <label
+        class="switch-custom custom-control-label"
+        for="user_isOffreSac"
+      ></label>
+    </div>
+    {% else %}
+    <div class="custom-control custom-switch">
+      <input
+        type="checkbox"
+        id="user_isOffreSac"
+        name="user[isOffreSac]"
+        class="custom-control-input"
+        value="0"
+        disabled
+      />
+      <label
+        class="switch-custom custom-control-label"
+        for="user_isOffreSac"
+      ></label>
+    </div>
+    {% endif %}
+  </td>
+  <td data-title="BadgePerso :" class="align-middle">
+    {% if permission.isBadgePerso == true %}
+    <div class="custom-control custom-switch">
+      <input
+        type="checkbox"
+        id="user_isBadgePerso"
+        name="user[isBadgePerso]"
+        class="custom-control-input"
+        value="1"
+        checked
+        disabled
+      />
+      <label
+        class="switch-custom custom-control-label"
+        for="user_isBadgePerso"
+      ></label>
+    </div>
+    {% else %}
+    <div class="custom-control custom-switch">
+      <input
+        type="checkbox"
+        id="user_isBadgePerso"
+        name="user[isBadgePerso]"
+        class="custom-control-input"
+        value="0"
+        disabled
+      />
+      <label
+        class="switch-custom custom-control-label"
+        for="user_isBadgePerso"
+      ></label>
+    </div>
+    {% endif %}
+  </td>
+  <td data-title="VenteMerch :" class="align-middle">
+    {% if permission.isVenteMerch == true %}
+    <div class="custom-control custom-switch">
+      <input
+        type="checkbox"
+        id="user_isVenteMerch"
+        name="user[isVenteMerch]"
+        class="custom-control-input"
+        value="1"
+        checked
+        disabled
+      />
+      <label
+        class="switch-custom custom-control-label"
+        for="user_isVenteMerch"
+      ></label>
+    </div>
+    {% else %}
+    <div class="custom-control custom-switch">
+      <input
+        type="checkbox"
+        id="user_isVenteMerch"
+        name="user[isVenteMerch]"
+        class="custom-control-input"
+        value="0"
+        disabled
+      />
+      <label
+        class="switch-custom custom-control-label"
+        for="user_isVenteMerch"
+      ></label>
+    </div>
+    {% endif %}
+  </td>
 
-                    <td data-title="Actif :" class="align-middle">
-                        {% if partner.user.isActive == true %}
-                            {# <div class="form-check form-check-active">Actif</div> #}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="form_user_isActive" name="form[user][isActive]" class="custom-control-input" value="1" checked="checked" disabled>
-                                <label class="switch-custom is-active-btn custom-control-label" for="form_user_isActive"></label>
-                            </div>
-                            {% else %}
-                            {# <div class="form-check form-check-inactive">Inactif</div> #}
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="form_user_isActive" name="form[user][isActive]" class="custom-control-input" value="0" disabled>
-                                <label class="switch-custom is-active-btn custom-control-label" for="form_user_isActive"></label>
-                            </div>
-                        {% endif %}
-                    </td>
+  <td data-title="Actif :" class="align-middle">
+    {% if partner.user.isActive == true %} {#
+    <div class="form-check form-check-active">Actif</div>
+    #}
+    <div class="custom-control custom-switch">
+      <input
+        type="checkbox"
+        id="form_user_isActive"
+        name="form[user][isActive]"
+        class="custom-control-input"
+        value="1"
+        checked="checked"
+        disabled
+      />
+      <label
+        class="switch-custom is-active-btn custom-control-label"
+        for="form_user_isActive"
+      ></label>
+    </div>
+    {% else %} {#
+    <div class="form-check form-check-inactive">Inactif</div>
+    #}
+    <div class="custom-control custom-switch">
+      <input
+        type="checkbox"
+        id="form_user_isActive"
+        name="form[user][isActive]"
+        class="custom-control-input"
+        value="0"
+        disabled
+      />
+      <label
+        class="switch-custom is-active-btn custom-control-label"
+        for="form_user_isActive"
+      ></label>
+    </div>
+    {% endif %}
+  </td>
 
-                    <td class="align-middle text-center">
-                        <a class="crud-button link-secondary fas fa-edit mx-2" aria-label="Editer" href="{{ path('app_partner_edit', {'id': partner.id}) }}"></a>
-                        <a class="crud-button link-success fa fa-eye mx-2" href="{{ path('app_partner_show', {'id': partner.id}) }}"></a>
-                        <a class="crud-button link-danger fa fa-trash mx-2" data-bs-toggle="modal" data-bs-target="#deleteModal{{partner.id}}"></a>
-                    </td>
-                </tr>
+  <td class="align-middle text-center">
+    <a
+      class="crud-button link-secondary fas fa-edit mx-2"
+      aria-label="Editer"
+      href="{{ path('app_partner_edit', { id: partner.id }) }}"
+    ></a>
+    <a
+      class="crud-button link-success fa fa-eye mx-2"
+      href="{{ path('app_partner_show', { id: partner.id }) }}"
+    ></a>
+    <a
+      class="crud-button link-danger fa fa-trash mx-2"
+      data-bs-toggle="modal"
+      data-bs-target="#deleteModal{{ partner.id }}"
+    ></a>
+  </td>
+</tr>
 
-                <!-- Modal DELETE -->
-                <div class="modal fade" id="deleteModal{{partner.id}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content text-center">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body text-center">
-                                <div class="icon-box icon-box-delete">
-                                    <i class="fa-solid fa-circle-xmark"></i>
-                                </div>
-                                <h3 class="my-4">Êtes-vous sûr ?</h3>
-                            </div>
-                            <p class="m-0">Vous allez supprimer la structure <strong>"{{ partner.name}}"</strong>.</p>
-                            <p>Souhaitez-vous continuer ?</p>
-                            <div class="modal-footer justify-content-center">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                <a class="btn delete-confirm" href="{{ path('app_partner_delete', {'id':partner.id}) }}">Supprimer</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<!-- Modal DELETE -->
+<div
+  class="modal fade"
+  id="deleteModal{{ partner.id }}"
+  tabindex="-1"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="icon-box icon-box-delete">
+          <i class="fa-solid fa-circle-xmark"></i>
+        </div>
+        <h3 class="my-4">Êtes-vous sûr ?</h3>
+      </div>
+      <p class="m-0">
+        Vous allez supprimer la structure <strong>"{{ partner.name }}"</strong>.
+      </p>
+      <p>Souhaitez-vous continuer ?</p>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <a
+          class="btn delete-confirm"
+          href="{{ path('app_partner_delete', { id: partner.id }) }}"
+          >Supprimer</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
 
-            {% endfor %}
-            {% endfor %}
+{% endfor %} {% endfor %}

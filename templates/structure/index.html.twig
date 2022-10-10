@@ -1,77 +1,76 @@
-{% extends 'base.html.twig' %}
-
-{% block title %} {{parent() }} | Structures{% endblock %}
-
-{% block header %}{% endblock %}
-{% block topbar %}{% endblock %}
-{% block searchBar %}{% endblock %}
-
-{% block content %}
+{% extends 'base.html.twig' %} {% block title %} {{ parent() }} | Structures{%
+endblock %} {% block header %}{% endblock %} {% block topbar %}{% endblock %} {%
+block searchBar %}{% endblock %} {% block content %}
 
 <div class="container-fluid index js-filter">
-
-    {# Flash message "Correctement ajouté" #}
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success alert-dismissible fade show my-4" role="alert">
-            <button type="button" data-bs-dismiss="alert" class="btn-close" aria-label="Close"></button>
-            {{ message }}
-        </div>
-    {% endfor %}
-
-    {% for message in app.flashes('danger') %}
-        <div class="alert alert-danger alert-dismissible fade show my-4" role="alert">
-            <button type="button" data-bs-dismiss="alert" class="btn-close" aria-label="Close"></button>
-            {{ message }}
-        </div>
-    {% endfor %}
-
-    {# SEARCH BAR #}
-    <div class="row">
-        <div class="col-md-3 search">
-            <i class="fa fa-search"></i>
-            {% include 'ajaxFilter/_filter.html.twig' %}
-        </div>
+  {# Flash message "Correctement ajouté" #} {% for message in
+  app.flashes('success') %}
+  <div
+    class="alert alert-success alert-dismissible fade show my-4"
+    role="alert"
+  >
+    <button
+      type="button"
+      data-bs-dismiss="alert"
+      class="btn-close"
+      aria-label="Close"
+    ></button>
+    {{ message }}
+  </div>
+  {% endfor %} {% for message in app.flashes('danger') %}
+  <div class="alert alert-danger alert-dismissible fade show my-4" role="alert">
+    <button
+      type="button"
+      data-bs-dismiss="alert"
+      class="btn-close"
+      aria-label="Close"
+    ></button>
+    {{ message }}
+  </div>
+  {% endfor %}
+  <div class="row">
+    <div class="col-md-3 search">
+      <i class="fa fa-search"></i>
+      {% include 'ajaxFilter/_filter.html.twig' %}
     </div>
+  </div>
 
-    <div class="col d-flex align-items-center">
-        <h1 class="my-4 me-2">STRUCTURES  </h1>
-        <span class="my-4">({{ structures|length }})</span>
-    </div>
+  <div class="col d-flex align-items-center">
+    <h1 class="my-4 me-2">STRUCTURES</h1>
+  </div>
 
-    <div class="responsive-table-line">
+  <div class="responsive-table-line">
+    <table class="table table-striped">
+      <thead>
+        <tr class="">
+          <th scope="col">ID</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Partenaire</th>
+          <th scope="col">Email</th>
+          <th scope="col">Vente de Boisson</th>
+          <th scope="col">Newsletter</th>
+          <th scope="col">OffreSac</th>
+          <th scope="col">BadgePerso</th>
+          <th scope="col">VenteMerch</th>
+          <th scope="col">Actif</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
 
-
-    <table class="table table-striped ">
-        <thead>
-            <tr class="">
-                <th scope="col">ID</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Partenaire</th>
-                <th scope="col">Email</th>
-                <th scope="col">Planning</th>
-                <th scope="col">Newsletter</th>
-                <th scope="col">Boissons</th>
-                <th scope="col">Sms</th>
-                <th scope="col">Concours</th>
-                <th scope="col">Actif</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-
-        {# Toutes mes structures #}
-        <tbody class="js-filter-content">
-            {% include 'structure/_structures.html.twig' %}
-        </tbody>
-    
+      {# Toutes mes structures #}
+      <tbody class="js-filter-content">
+        {% include 'structure/_structures.html.twig' %}
+      </tbody>
     </table>
-</div>
+  </div>
 
-<div class="row my-5">
-        <div class="col">
-            <a class="btn structure" href="{{ path('app_structure_new') }}"><i class="fa-solid fa-plus"></i> Ajouter une nouvelle structure </a>
-        </div>
+  <div class="row my-5">
+    <div class="col">
+      <a class="btn structure" href="{{ path('app_structure_new') }}"
+        ><i class="fa-solid fa-plus"></i> Ajouter une nouvelle structure
+      </a>
     </div>
-
+  </div>
 </div>
 
 {% endblock %}
