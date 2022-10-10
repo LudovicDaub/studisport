@@ -670,7 +670,7 @@
   }
 
   .form-check-admin {
-    background-color: rgb(128, 128, 124);
+    background-color: rgb(0, 0, 0);
   }
 
   .partner {
@@ -680,7 +680,7 @@
 
   .form-check-partner,
   .partner {
-    background-color: rgb(44, 127, 182);
+    background-color: rgb(92, 44, 182);
     color: white;
   }
 
@@ -691,7 +691,7 @@
 
   .form-check-structure,
   .structure {
-    background-color: #E45D99 !important;
+    background-color: #e4db5d !important;
     color: white !important;
   }
 
