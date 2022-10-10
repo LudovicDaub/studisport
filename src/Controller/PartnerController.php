@@ -128,7 +128,7 @@ class PartnerController extends AbstractController
                 $resetPasswordUrl = $this->generateUrl('app_reset_password');
                 $mail = new Mail();
 
-                $content = "Bonjour " . $user->getName() . "<br/><br/>Vous disposez désormais d'un compte PARTENAIRE pour votre établissement " . $partner->getName() . ", et d'un accès en lecture seule au panel d'administration de STUDI FITNESS.<br/><br/> Vous pourrez y découvrir vos STRUCTURES (clubs) rattachées à votre établissement.<br/><br/>";
+                $content = "Bonjour " . $user->getName() . "<br/><br/>Vous disposez désormais d'un compte PARTENAIRE pour votre établissement " . $partner->getName() . ", et d'un accès en lecture seule au panel d'administration de STUDI SPORT.<br/><br/> Vous pourrez y découvrir vos STRUCTURES (clubs) rattachées à votre établissement.<br/><br/>";
 
                 $content .= "<hr>";
                 $content .= "<h3>Vos informations de connexion :";
@@ -140,26 +140,26 @@ class PartnerController extends AbstractController
 
                 // Envoi des permissions
                 if ($permissions->isIsNewsletter() == true) {
-                    $content .=  "<h5>IsNewsletter : OK";
+                    $content .=  "<h5>Newsletter : OK";
                 }
                 if ($permissions->isIsVenteBoisson() == true) {
-                    $content .=  "<h5>IsVenteBoisson : OK";
+                    $content .=  "<h5>Vente de Boisson : OK";
                 }
                 if ($permissions->isIsOffreSac() == true) {
-                    $content .=  "<h5>OffreSac : OK";
+                    $content .=  "<h5>Sac offert : OK";
                 }
                 if ($permissions->isIsBadgePerso() == true) {
-                    $content .=  "<h5>IsBadgePerso : OK";
+                    $content .=  "<h5>Badge Personnalisé : OK";
                 }
                 if ($permissions->isIsVenteMerch() == true) {
-                    $content .=  "<h5>IsVenteMerch : OK";
+                    $content .=  "<h5>Vente de Merchandising : OK";
                 }
 
                 $content .= "<hr> <br/><br/><br/>";
                 $content .= "Votre email de connexion est " . $user->getEmail() . ".<br><br>";
                 $content .= "<h3>Pour des raisons de sécurité, vous devez demander à redéfinir votre mot de passe en <a href='#" . $resetPasswordUrl . "'> CLIQUANT ICI </a>. Une fois la demande de réinitialisation effectuée, vous disposerez de 3 heures pour le modifier.</h3><br/><br/><br/>";
 
-                $content .= "A très bientôt chez STUDI FITNESS !";
+                $content .= "A très bientôt chez STUDI SPORT !";
 
                 $mail->send($user->getEmail(), $user->getName(), 'Vous avez un nouveau compte PARTENAIRE !', $content);
                 // ***************************************************************** \\\
@@ -226,7 +226,7 @@ class PartnerController extends AbstractController
             $mail = new Mail();
 
             $content = "Bonjour " . $partnerUser->getName() . "<br/><br/>";
-            $content .= "Suite à votre demande, les informations de votre partenaire " . $partner->getName() . " ont été mises à jour par un administrateur STUDI FITNESS. Vous les retrouverez ci-dessous :<br/><br/>";
+            $content .= "Suite à votre demande, les informations de votre partenaire " . $partner->getName() . " ont été mises à jour par un administrateur STUDI SPORT. Vous les retrouverez ci-dessous :<br/><br/>";
             $content .= "<hr>";
             $content .= "<h3>Vos informations de connexion :";
             $content .= "<h5>Email de connexion : " . $partnerUser->getEmail();
@@ -237,23 +237,23 @@ class PartnerController extends AbstractController
 
             // Envoi des permissions
             if ($userPermissions->isIsNewsletter() == true) {
-                $content .=  "<h5>setIsNewsletter : OK";
+                $content .=  "<h5>Newsletter : OK";
             }
             if ($userPermissions->isIsVenteBoisson() == true) {
-                $content .=  "<h5>setIsVenteBoisson : OK";
+                $content .=  "<h5>Vente de Boisson : OK";
             }
             if ($userPermissions->isIsOffreSac() == true) {
-                $content .=  "<h5>OffreSac : OK";
+                $content .=  "<h5>Sac offert : OK";
             }
             if ($userPermissions->isIsBadgePerso() == true) {
-                $content .=  "<h5>setIsBadgePerso : OK";
+                $content .=  "<h5>Badge Personnalisé : OK";
             }
             if ($userPermissions->isIsVenteMerch() == true) {
-                $content .=  "<h5>setIsVenteMerch : OK";
+                $content .=  "<h5>Vente de Merchandising : OK";
             }
 
             $content .= "<hr>";
-            $content .= "Pour toute autre besoin de modification, veuillez contacter <a href='#'> l'administrateur STUDI FITNESS </a>";
+            $content .= "Pour toute autre besoin de modification, veuillez contacter <a href='#'> l'administrateur STUDI SPORT </a>";
 
             $mail->send($partnerUser->getEmail(), $partnerUser->getName(), 'Mise à jour de vos informations et permissions PARTENAIRE', $content);
             // ***************************************************************** \\\
