@@ -11,12 +11,12 @@ block content %}
 
   <div class="home-content">
     <h3>Bienvenue, {{ app.user.name }}.</h3>
-    <h6>Vous êtes dans l'administration de "STUDI FITNESS GROUP".</h6>
+    <h6>Vous êtes dans l'administration de "STUDI SPORT GROUP".</h6>
     <p>
       Votre adresse mail est
-      <a href="mailto:{{ app.user.email }}">{{ app.user.email }}</a
-      >, vous possédez l'ID {{ app.user.id }} et votre compte est {% if
-      app.user.isActive == 1 %} Actif {% else %} Inactif {% endif %}
+      <a href="mailto:{{ app.user.email }}">{{ app.user.email }}</a> et votre
+      compte est {% if app.user.isActive == 1 %} Actif {% else %} Inactif {%
+      endif %}
     </p>
     <hr />
   </div>
@@ -132,8 +132,7 @@ block content %}
     <i class="fa fa-users"></i>
     <div class="box-data">
       <h3>{{ users|length -1 }}</h3>
-      {# On enlève l'admin du nombre d'utilisateurs en faisant -1 #} Total
-      Utilisateurs
+      Total Utilisateurs
     </div>
   </a>
 
@@ -154,8 +153,7 @@ block content %}
   </a>
 </div>
 
-{% endif %} {# LECTURE SEULE PARTENAIRE #} {% if is_granted('ROLE_PARTENAIRE')
-%}
+{% endif %} {% if is_granted('ROLE_PARTENAIRE') %}
 
 <div class="py-5 h-100">
   <div class="row d-flex h-100">
@@ -169,7 +167,7 @@ block content %}
                 ><i
                   >Pour modifier ces fonctionnalités liées à votre contrat,
                   <a href="mailto:admin@admin.fr"
-                    >veuillez contacter l'administrateur STUDI FITNESS.</a
+                    >veuillez contacter l'administrateur STUDI SPORT.</a
                   ></i
                 ></small
               >
@@ -182,7 +180,7 @@ block content %}
 
                 <div class="col permission VenteBoisson">
                   <i class="fa-solid fa-calendar-days"></i>
-                  <h6 class="permission-title">VenteBoisson</h6>
+                  <h6 class="permission-title">Vente de Boisson</h6>
                   <label class="switch">
                     <input type="checkbox" {% if permission.isVenteBoisson == 1
                     %} checked {% endif %} disabled>
@@ -202,7 +200,7 @@ block content %}
 
                 <div class="col permission OffreSac">
                   <i class="fas fa-cocktail"></i>
-                  <h6 class="permission-title">OffreSac</h6>
+                  <h6 class="permission-title">Sac offert</h6>
                   <label class="switch">
                     <input type="checkbox" {% if permission.isOffreSac == 1 %}
                     checked {% endif %} disabled>
@@ -212,7 +210,7 @@ block content %}
 
                 <div class="col permission BadgePerso">
                   <i class="fa-solid fa-comment-BadgePerso"></i>
-                  <h6 class="permission-title">BadgePerso</h6>
+                  <h6 class="permission-title">Badge Personnalisé</h6>
                   <label class="switch">
                     <input type="checkbox" {% if permission.isBadgePerso == 1 %}
                     checked {% endif %} disabled>
@@ -222,7 +220,7 @@ block content %}
 
                 <div class="col permission VenteMerch">
                   <i class="fa-solid fa-trophy"></i>
-                  <h6 class="permission-title">VenteMerch</h6>
+                  <h6 class="permission-title">Vente de Merchandising</h6>
                   <label class="switch">
                     <input type="checkbox" {% if permission.isVenteMerch == 1 %}
                     checked {% endif %} disabled>
@@ -238,8 +236,7 @@ block content %}
     </div>
   </div>
 
-  {% endif %} {# LECTURE SEULE STRUCTURE #} {% if is_granted('ROLE_STRUCTURE')
-  %}
+  {% endif %} {% if is_granted('ROLE_STRUCTURE') %}
 
   <div class="container py-5 h-100">
     <div class="row d-flex align-items-center h-100">
@@ -254,7 +251,7 @@ block content %}
                     >Pour modifier ces fonctionnalités liées au contrat de votre
                     partenaire,
                     <a href="mailto:admin@admin.fr"
-                      >veuillez contacter l'administrateur STUDI FITNESS</a
+                      >veuillez contacter l'administrateur STUDI SPORT</a
                     ></i
                   ></small
                 >
@@ -268,7 +265,7 @@ block content %}
 
                   <div class="col permission VenteBoisson">
                     <i class="fa-solid fa-calendar-days"></i>
-                    <h6 class="permission-title">VenteBoisson</h6>
+                    <h6 class="permission-title">Vente de Boisson</h6>
                     <label class="switch">
                       <input type="checkbox" {% if (pp.isVenteBoisson == 1) and
                       (permission.isVenteBoisson == 1) %} checked {% endif %}
@@ -290,7 +287,7 @@ block content %}
 
                   <div class="col permission OffreSac">
                     <i class="fas fa-cocktail"></i>
-                    <h6 class="permission-title">OffreSac</h6>
+                    <h6 class="permission-title">Sac offert</h6>
                     <label class="switch">
                       <input type="checkbox" {% if (pp.isOffreSac == 1) and
                       (permission.isOffreSac == 1) %} checked {% endif %}
@@ -301,7 +298,7 @@ block content %}
 
                   <div class="col permission BadgePerso">
                     <i class="fa-solid fa-comment-BadgePerso"></i>
-                    <h6 class="permission-title">BadgePerso</h6>
+                    <h6 class="permission-title">Badge Personnalisé</h6>
                     <label class="switch">
                       <input type="checkbox" {% if (pp.isBadgePerso == 1) and
                       (permission.isBadgePerso == 1) %} checked {% endif %}
@@ -312,7 +309,7 @@ block content %}
 
                   <div class="col permission VenteMerch">
                     <i class="fa-solid fa-trophy"></i>
-                    <h6 class="permission-title">VenteMerch</h6>
+                    <h6 class="permission-title">Vente de Merchandising</h6>
                     <label class="switch">
                       <input type="checkbox" {% if (pp.isVenteMerch == 1) and
                       (permission.isVenteMerch == 1) %} checked {% endif %}
