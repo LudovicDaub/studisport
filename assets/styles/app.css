@@ -555,6 +555,7 @@
   }
 
   /** LOGIN-LOGOUT BUTTON **/
+
   .login-logout .profile {
     position: relative;
     width: 40px;
@@ -563,15 +564,7 @@
     overflow: hidden;
     cursor: pointer;
     border: 1px solid black;
-  }
-
-  .login-logout .profile img {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    background-color: #5cb85c;
   }
 
   .login-logout .menu {
